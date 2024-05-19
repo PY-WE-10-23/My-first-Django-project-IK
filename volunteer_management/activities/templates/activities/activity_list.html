@@ -1,0 +1,116 @@
+{% load dict_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="float: right;">
+            {% if user.is_authenticated %}
+                <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+        <h1>Activity List</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'add_activity' %}">Add Activity</a></li>
+                <li><a href="{% url 'activity_list' %}">View Activities</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Activity List</h2>
+        <form method="get">
+            <label for="user_id">Filter by user:</label>
+            <select name="user_id" id="user_id">
+                <option value="">All</option>
+                {% for user in user_list %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            <label for="date_sort">Sort by date:</label>
+            <select name="date_sort" id="date_sort">
+                <option value="">None</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+            <label for="slots_sort">Sort by available slots:</label>
+            <select name="slots_sort" id="slots_sort">
+                <option value="">None</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+            <label for="total_slots">Filter by total slots greater than:</label>
+            <input type="number" name="total_slots" id="total_slots" min="0">
+            <button type="submit">Apply Filters</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Total Slots</th>
+                    <th>Registered</th>
+                    <th>Available Slots</th>
+                    <th>Volunteers</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activity in activities %}
+                <tr>
+                    <td>{{ activity.title }}</td>
+                    <td>{{ activity.date|date:"d/m/Y" }}</td>
+                    <td>{{ activity.available_slots }}</td>
+                    <td>{{ activity.registered_count }}</td>
+                    <td>{{ activity.available_count }}</td>
+                    <td>
+                        <ul>
+                            {% for volunteer in activity_registrations|get_item:activity.id %}
+                            <li>{{ volunteer.username }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="{% url 'register_activity' activity.id %}">Register</a> -
+                        <a href="{% url 'edit_activity' activity.id %}">Edit</a> -
+                        <a href="{% url 'remove_activity' activity.id %}">Remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button onclick="window.location.href='{% url 'index' %}'">Back</button>
+    </main>
+    <footer>
+        <p>&copy; 2024 Volunteer Management System</p>
+        <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>

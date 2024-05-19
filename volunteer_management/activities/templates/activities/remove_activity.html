@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Activity</title>
+</head>
+<body>
+    <header>
+        <div style="float: right;">
+            {% if user.is_authenticated %}
+                <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        <h2>Remove Activity</h2>
+        <p>Are you sure you want to remove the activity "{{ activity.title }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Yes, remove</button>
+        </form>
+        <button onclick="window.location.href='{% url 'index' %}'">No, go back</button>
+    </main>
+    <footer>
+        <p>&copy; 2024 Volunteer Management System</p>
+        <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>
