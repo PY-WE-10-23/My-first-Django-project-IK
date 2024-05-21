@@ -1,32 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register for Activity</title>
-</head>
-<body>
-    <header>
-        <div style="float: right;">
-            {% if user.is_authenticated %}
-                <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-            {% endif %}
-        </div>
-    </header>
-    <main>
-        <h2>Register for {{ activity.title }}</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
-        </form>
-        <button onclick="window.location.href='{% url 'index' %}'">Back</button>
-    </main>
-    <footer>
-        <p>&copy; 2024 Volunteer Management System</p>
-        <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
-    </footer>
-</body>
-</html>
+{% extends 'activities/base.html' %}
+
+{% block title %}Register for Activity{% endblock %}
+
+{% block content %}
+    <h2>Register for {{ activity.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <button onclick="window.location.href='{% url 'index' %}'">Back</button>
+{% endblock %}
+
+<footer>
+    <p>&copy; 2024 Volunteer Management System</p>
+    <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+</footer>

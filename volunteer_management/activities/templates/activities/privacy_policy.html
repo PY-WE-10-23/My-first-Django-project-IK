@@ -1,28 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy</title>
-</head>
-<body>
-    <header>
-        <div style="float: right;">
-            {% if user.is_authenticated %}
-                <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-            {% endif %}
-        </div>
-    </header>
-    <main>
-        <h1>Privacy Policy</h1>
-        <p>This is where your privacy policy information will go.</p>
-        <button onclick="window.location.href='{% url 'index' %}'">Back</button>
-    </main>
-    <footer>
-        <p>&copy; 2024 Volunteer Management System</p>
-        <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
-    </footer>
-</body>
-</html>
+{% extends 'activities/base.html' %}
+
+{% block title %}Privacy Policy{% endblock %}
+
+{% block content %}
+    <h1>Privacy Policy</h1>
+    <p>This is where your privacy policy information will go.</p>
+    <button onclick="window.location.href='{% url 'index' %}'">Back</button>
+{% endblock %}
+
+<footer>
+    <p>&copy; 2024 Volunteer Management System</p>
+    <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+</footer>

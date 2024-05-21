@@ -1,54 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volunteer Management</title>
-</head>
-<body>
-    <header>
-        <div style="float: right;">
-            {% if user.is_authenticated %}
-                <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-            {% endif %}
-        </div>
-        <h1>Welcome to the Volunteer Management System</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-                <li><a href="{% url 'add_activity' %}">Add Activity</a></li>
-                <li><a href="{% url 'activity_list' %}">View Activities</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h1>Volunteer Management System</h1>
-        <section>
-            <h2>About the Application</h2>
-            <p>This Volunteer Management System is designed to help organizations manage their volunteer activities efficiently. The application allows administrators to add and manage activities, and volunteers to register for these activities. Our goal is to streamline the process of organizing and participating in volunteer events, making it easier for everyone involved.</p>
+{% extends 'activities/base.html' %}
 
-            <h2>Purpose</h2>
-            <p>The primary purpose of this application is to provide a centralized platform where volunteer activities can be easily managed. It helps organizations keep track of volunteer registrations, available slots, and activity details, ensuring that everything runs smoothly and efficiently. Volunteers can easily find and register for activities that match their interests and availability.</p>
+{% block title %}Volunteer Management{% endblock %}
 
-            <h2>Developers</h2>
-            <p>This application was developed by a dedicated team of developers who are passionate about making a difference in the community. Our team consists of:</p>
-            <ul>
-                <li><strong>Iva Kantorová</strong> - Lead Developer</li>
-            </ul>
-            <p>We hope this application serves as a valuable tool for both organizations and volunteers, helping to foster a stronger and more connected community.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Volunteer Management System</p>
-        <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
-    </footer>
-</body>
-</html>
+{% block content %}
+    <h1>Volunteer Management System</h1>
+    <section>
+        <h2>About the Application</h2>
+        <p>This Volunteer Management System is designed to help organizations manage their volunteer activities efficiently. The application allows administrators to add and manage activities, and volunteers to register for these activities. Our goal is to streamline the process of organizing and participating in volunteer events, making it easier for everyone involved.</p>
+
+        <h2>Purpose</h2>
+        <p>The primary purpose of this application is to provide a centralized platform where volunteer activities can be easily managed. It helps organizations keep track of volunteer registrations, available slots, and activity details, ensuring that everything runs smoothly and efficiently. Volunteers can easily find and register for activities that match their interests and availability.</p>
+
+        <h2>Developers</h2>
+        <p>This application was developed by a dedicated team of developers who are passionate about making a difference in the community. Our team consists of:</p>
+        <ul>
+            <li><strong>Iva Kantorová</strong> - Lead Developer</li>
+        </ul>
+        <p>We hope this application serves as a valuable tool for both organizations and volunteers, helping to foster a stronger and more connected community.</p>
+    </section>
+{% endblock %}
+
+<footer>
+    <p>&copy; 2024 Volunteer Management System</p>
+    <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+</footer>
