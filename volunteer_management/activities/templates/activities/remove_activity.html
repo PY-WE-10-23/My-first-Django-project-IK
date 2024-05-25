@@ -1,18 +1,16 @@
 {% extends 'activities/base.html' %}
 
-{% block title %}Remove Activity{% endblock %}
+{% block title %}Activity List{% endblock %}
 
 {% block content %}
-    <h2>Remove Activity</h2>
-    <p>Are you sure you want to remove the activity "{{ activity.title }}"?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Yes, remove</button>
-    </form>
-    <button onclick="window.location.href='{% url 'index' %}'">No, go back</button>
+    <main>
+        <h2>Remove Activity</h2>
+        <p>Are you sure you want to remove the activity "{{ activity.title }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Yes, remove</button>
+        </form>
+        <button onclick="window.location.href='{% url 'index' %}'">No, go back</button>
+    </main>
 {% endblock %}
 
-<footer>
-    <p>&copy; 2024 Volunteer Management System</p>
-    <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
-</footer>

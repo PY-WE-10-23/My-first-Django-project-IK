@@ -1,73 +1,73 @@
 {% extends 'activities/base.html' %}
 
 {% block title %}Activity List{% endblock %}
+{% load dict_filters %}
 
 {% block content %}
-    <h2>Activity List</h2>
-    <form method="get">
-        <label for="user_id">Filter by user:</label>
-        <select name="user_id" id="user_id">
-            <option value="">All</option>
-            {% for user in user_list %}
+    <main>
+        <h2>Activity List</h2>
+        <form method="get">
+            <label for="user_id">Filter by user:</label>
+            <select name="user_id" id="user_id">
+                <option value="">All</option>
+                {% for user in user_list %}
                 <option value="{{ user.id }}">{{ user.username }}</option>
-            {% endfor %}
-        </select>
-        <label for="date_sort">Sort by date:</label>
-        <select name="date_sort" id="date_sort">
-            <option value="">None</option>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </select>
-        <label for="slots_sort">Sort by available slots:</label>
-        <select name="slots_sort" id="slots_sort">
-            <option value="">None</option>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </select>
-        <label for="total_slots">Filter by total slots greater than:</label>
-        <input type="number" name="total_slots" id="total_slots" min="0">
-        <button type="submit">Apply Filters</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Total Slots</th>
-                <th>Registered</th>
-                <th>Available Slots</th>
-                <th>Volunteers</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for activity in activities %}
+                {% endfor %}
+            </select>
+            <label for="date_sort">Sort by date:</label>
+            <select name="date_sort" id="date_sort">
+                <option value="">None</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+            <label for="slots_sort">Sort by available slots:</label>
+            <select name="slots_sort" id="slots_sort">
+                <option value="">None</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+            <label for="total_slots">Filter by total slots greater than:</label>
+            <input type="number" name="total_slots" id="total_slots" min="0">
+            <button type="submit">Apply Filters</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Total Slots</th>
+                    <th>Registered</th>
+                    <th>Available Slots</th>
+                    <th>Volunteers</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activity in activities %}
                 <tr>
                     <td>{{ activity.title }}</td>
                     <td>{{ activity.date|date:"d/m/Y" }}</td>
                     <td>{{ activity.available_slots }}</td>
-                    <td>{{ activity.registration_set.count }}</td>
-                    <td>{{ activity.remaining_slots }}</td>
+                    <td>{{ activity.registered_count }}</td>
+                    <td>{{ activity.available_count }}</td>
                     <td>
                         <ul>
-                            {% for registration in activity.registration_set.all %}
-                                <li>{{ registration.user.username }}</li>
+                            {% for volunteer in activity_registrations|get_item:activity.id %}
+                            <li>{{ volunteer.username }}</li>
                             {% endfor %}
                         </ul>
                     </td>
                     <td>
-                        <a href="{% url 'register_activity' activity.id %}">Register</a> -
+                         {% if user.is_authenticated %}
+        <a href="{% url 'register_activity' activity.id %}">Register</a> -
                         <a href="{% url 'edit_activity' activity.id %}">Edit</a> -
                         <a href="{% url 'remove_activity' activity.id %}">Remove</a>
+                {% endif %}
                     </td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <button onclick="window.location.href='{% url 'index' %}'">Back</button>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button onclick="window.location.href='{% url 'index' %}'">Back</button>
+    </main>
 {% endblock %}
-
-<footer>
-    <p>&copy; 2024 Volunteer Management System</p>
-    <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
-</footer>
