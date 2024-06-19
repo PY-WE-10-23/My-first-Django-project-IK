@@ -129,3 +129,6 @@ def user_logout(request):
 
 def privacy_policy(request):
     return render(request, 'activities/privacy_policy.html')
+
+def about(request):
+    return render(request, 'activities/about.html')
